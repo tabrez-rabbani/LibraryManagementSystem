@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background: #000; /* Pure dark black background */
+            color: #e2e8f0;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        /* Particle effect for background (simulating dynamic effects) */
+        #particles-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .landing-container {
+            max-width: 900px;
+            width: 100%;
+            padding: 3rem 2.5rem;
+            z-index: 2;
+            position: relative;
+            animation: fadeIn 0.5s ease-in;
+            overflow: hidden;
+            text-align: center;
+        }
+        h1, .lead, .btn-custom, .footer-text {
+            transition: text-shadow 0.3s ease, box-shadow 0.3s ease;
+        }
+        h1 {
+            color: #e2e8f0;
+            font-weight: 900;
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3), 0 0 5px rgba(76, 175, 80, 0.2); /* Continuous subtle glow */
+            animation: continuousGlow 4s ease-in-out infinite;
+            position: relative;
+        }
+        h1 i {
+            margin-right: 0.5rem;
+        }
+        .lead {
+            color: #a0aec0;
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.2), 0 0 4px rgba(76, 175, 80, 0.1); /* Continuous subtle glow */
+            animation: continuousGlow 4s ease-in-out infinite;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            padding: 1rem 0;
+            z-index: 3;
+        }
+        .btn-custom {
+            min-width: 220px;
+            padding: 1.2rem 2.5rem;
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ffffff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 0 rgba(59, 130, 246, 0), 0 0 0 rgba(76, 175, 80, 0);
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            text-decoration: none; /* Ensure no underline */
+            background: transparent; /* Transparent background for glow effect */
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        .btn-custom::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        .btn-custom:hover::before {
+            width: 100%;
+        }
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6), 0 0 10px rgba(76, 175, 80, 0.6);
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 10px rgba(0, 255, 0, 0.6); /* Multi-color glow on hover */
+        }
+        .btn-student:hover {
+            color: #4CAF50;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.6), 0 0 10px rgba(255, 255, 0, 0.6); /* Multi-color glow on hover */
+        }
+        .footer-text {
+            text-align: center;
+            margin-top: 2.5rem;
+            color: #a0aec0;
+            font-size: 1rem;
+            text-shadow: 0 0 8px rgba(59, 130, 246, 0.2), 0 0 4px rgba(76, 175, 80, 0.1); /* Continuous subtle glow */
+            animation: continuousGlow 4s ease-in-out infinite;
+        }
+
+        /* Cursor-based multi-color glow effect (inspired by xAI) */
+        .glow-element {
+            transition: text-shadow 0.3s ease, box-shadow 0.3s ease;
+        }
+        body:hover .glow-element {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.3), 0 0 5px rgba(76, 175, 80, 0.2); /* Continuous subtle glow */
+        }
+        .glow-element:hover {
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgba(0, 255, 0, 0.7), 0 0 10px rgba(0, 0, 255, 0.7); /* Multi-color glow on hover */
+        }
+        .btn-custom:hover {
+            text-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgba(0, 255, 0, 0.7), 0 0 10px rgba(0, 0, 255, 0.7); /* Multi-color glow on hover */
+        }
+
+        /* Particle animation inspired by xAI's dynamic background */
+        .particle {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: rgba(59, 130, 246, 0.6);
+            border-radius: 50%;
+            animation: moveParticles 15s infinite linear;
+            z-index: 1;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes moveParticles {
+            0% { transform: translateY(0) translateX(0); }
+            100% { transform: translateY(-100vh) translateX(100vw); }
+        }
+        @keyframes continuousGlow {
+            0%, 100% { text-shadow: 0 0 10px rgba(59, 130, 246, 0.3), 0 0 5px rgba(76, 175, 80, 0.2); }
+            50% { text-shadow: 0 0 15px rgba(59, 130, 246, 0.4), 0 0 8px rgba(76, 175, 80, 0.3); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .landing-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            h1 {
+                font-size: 3rem;
+            }
+            .lead {
+                font-size: 1.2rem;
+            }
+            .btn-custom {
+                min-width: 180px;
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+            .btn-container {
+                gap: 1.5rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .landing-container {
+                padding: 1.5rem 1rem;
+                margin: 0.5rem;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            .lead {
+                font-size: 1rem;
+            }
+            .btn-custom {
+                min-width: 140px;
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            .btn-container {
+                gap: 1rem;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <h1 class="glow-element"><i class="fas fa-book-open"></i> Library Management System</h1>
+        <p class="lead glow-element">Welcome to our advanced library system. Access your account as an Admin or Student.</p>
+        <div class="btn-container">
+            <a href="login1.php" class="btn-custom btn-admin glow-element">Admin Login/Signup</a>
+            <a href="student/auth.php" class="btn-custom btn-student glow-element">Student Login/Signup</a>
+        </div>
+        <p class="footer-text glow-element">© 2025 Library Management System. All rights reserved.</p>
+    </div>
+
+    <!-- JavaScript for cursor effect, particles, and glow -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Cursor effect and glow
+        document.addEventListener('mousemove', (e) => {
+            const cursorEffect = document.body.querySelector('::after');
+            cursorEffect.style.left = `${e.clientX}px`;
+            cursorEffect.style.top = `${e.clientY}px`;
+
+            // Dynamic multi-color glow effect for text and buttons
+            const glowElements = document.querySelectorAll('.glow-element');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            const hue = Math.round((x + y) * 360); // Full rainbow spectrum (0-360 for multi-color)
+
+            glowElements.forEach(element => {
+                // Multi-color glow on hover (red, green, blue, yellow, etc.)
+                const colors = [
+                    `rgba(255, 0, 0, 0.7)`,    // Red
+                    `rgba(0, 255, 0, 0.7)`,    // Green
+                    `rgba(0, 0, 255, 0.7)`,    // Blue
+                    `rgba(255, 255, 0, 0.7)`   // Yellow
+                ];
+                const colorIndex = Math.floor(hue / 90) % colors.length;
+                element.style.textShadow = `0 0 30px ${colors[colorIndex]}, 0 0 15px ${colors[(colorIndex + 1) % colors.length]}, 0 0 10px ${colors[(colorIndex + 2) % colors.length]}`;
+                
+                if (element.classList.contains('btn-custom')) {
+                    element.style.boxShadow = `0 0 30px ${colors[colorIndex]}, 0 0 15px ${colors[(colorIndex + 1) % colors.length]}, 0 0 10px ${colors[(colorIndex + 2) % colors.length]}`;
+                }
+            });
+        });
+
+        // Particle generation
+        function createParticles() {
+            const particleCount = 50;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                document.body.appendChild(particle);
+            }
+        }
+        window.onload = createParticles;
+
+        // Initialize particles.js (optional, for smoother particle animation)
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 50, density: { enable: true, value_area: 800 } },
+                color: { value: "#3b82f6" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: false },
+                move: { enable: true, speed: 2, direction: "top", random: true, straight: false, out_mode: "out" }
+            },
+            interactivity: { detect_on: "canvas", events: { onhover: { enable: false }, onclick: { enable: false } } },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>
